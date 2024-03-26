@@ -1,0 +1,29 @@
+import mysql.connector
+
+def posalji_izvjestaj_o_placi(cursor):
+   
+    cursor.execute("SELECT DAYOFWEEK(CURDATE()) = 6 AND DAY(CURDATE()) = 15")
+    if cursor.fetchone()[0]:
+        
+        cursor.callproc("PosaljiIzvjestajOPlaci")
+        print("Izvještaj o plaći kolegama poslan.")
+    else:
+        print("Danas nije dan za slanje izvještaja o plaći kolegama.")
+
+
+connection = mysql.connector.connect(
+    host="your_host",
+    user="your_user",
+    password="your_password",
+    database="your_database"
+)
+
+
+cursor = connection.cursor()
+
+
+posalji_izvjestaj_o_placi(cursor)
+
+
+cursor.close()
+connection.close()
